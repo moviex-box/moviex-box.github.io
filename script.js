@@ -41,5 +41,10 @@ document.getElementById("movieResult").innerHTML = `
 `;
 
 });
+const name = localStorage.getItem("username");
+
+if(name){
+document.getElementById("welcomeUser").innerText = "Welcome " + name + " 👋";
+}
 
 });
