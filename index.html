@@ -3,120 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Movie Explorer</title>
+<title>Register - Movie Explorer</title>
 
 <style>
 
 body{
-font-family:Arial;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 background:#141e30;
+font-family:Arial;
 color:white;
+}
+
+.register-container{
+background:#1c1c1c;
+padding:35px;
+border-radius:10px;
+width:300px;
 text-align:center;
-padding:30px;
-}
-
-h1{
-color:#e50914;
-margin-bottom:20px;
-}
-
-.search-box{
-margin-bottom:20px;
 }
 
 input{
+width:100%;
 padding:10px;
-width:250px;
+margin:10px 0;
 border:none;
-border-radius:6px;
+border-radius:5px;
 }
 
 button{
-padding:10px 15px;
-border:none;
+width:100%;
+padding:10px;
 background:#e50914;
+border:none;
 color:white;
-border-radius:6px;
+border-radius:5px;
 cursor:pointer;
 }
 
-.movie-card{
-margin-top:20px;
-background:#1c1c1c;
-padding:20px;
-border-radius:10px;
-display:inline-block;
-}
-
-img{
-width:200px;
-border-radius:10px;
-}
-
-iframe{
-margin-top:15px;
-border-radius:10px;
-}
-
 </style>
-
 </head>
 
 <body>
 
+<div class="register-container">
+
 <h1>🎬 Movie Explorer</h1>
+<h2>Register</h2>
 
-<div class="search-box">
+<form id="registerForm">
 
-<input type="text" id="movieName" placeholder="Enter Movie Name">
+<input type="text" id="name" placeholder="Enter Name" required>
 
-<button onclick="searchMovie()">Search</button>
+<input type="email" id="email" placeholder="Enter Email" required>
+
+<input type="password" id="password" placeholder="Password" required>
+
+<button type="submit">Register</button>
+
+</form>
 
 </div>
-
-<div id="result"></div>
 
 <script>
 
-async function searchMovie(){
+document.getElementById("registerForm").addEventListener("submit", function(e){
 
-const movie = document.getElementById("movieName").value;
+e.preventDefault();
 
-const url = `https://www.omdbapi.com/?t=${movie}&apikey=564727fa`;
+const name = document.getElementById("name").value;
+const email = document.getElementById("email").value;
 
-const response = await fetch(url);
+localStorage.setItem("username", name);
+localStorage.setItem("useremail", email);
 
-const data = await response.json();
+window.location.href = "movie.html";
 
-if(data.Response == "True"){
-
-document.getElementById("result").innerHTML = `
-
-<div class="movie-card">
-
-<h2>${data.Title}</h2>
-
-<img src="${data.Poster}">
-
-<p>${data.Plot}</p>
-
-<h3>Watch Trailer</h3>
-
-<iframe width="350" height="200"
-src="https://www.youtube.com/embed?listType=search&list=${data.Title} trailer"
-frameborder="0" allowfullscreen></iframe>
-
-</div>
-
-`;
-
-}else{
-
-document.getElementById("result").innerHTML = "<p>Movie not found</p>";
-
-}
-
-}
+});
 
 </script>
 
