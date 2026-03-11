@@ -4,25 +4,121 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Movie Explorer</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+font-family:Arial;
+background:#141e30;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+h1{
+color:#e50914;
+margin-bottom:20px;
+}
+
+.search-box{
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+width:250px;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:10px 15px;
+border:none;
+background:#e50914;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.movie-card{
+margin-top:20px;
+background:#1c1c1c;
+padding:20px;
+border-radius:10px;
+display:inline-block;
+}
+
+img{
+width:200px;
+border-radius:10px;
+}
+
+iframe{
+margin-top:15px;
+border-radius:10px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<header>
 <h1>🎬 Movie Explorer</h1>
-</header>
 
-<section class="search-section">
-<form id="movieForm">
-<input type="text" id="movieInput" placeholder="Search for a movie..." required>
-<button type="submit">Search</button>
-</form>
-</section>
+<div class="search-box">
 
-<section id="movieResult" class="movie-container"></section>
+<input type="text" id="movieName" placeholder="Enter Movie Name">
 
-<script src="script.js"></script>
+<button onclick="searchMovie()">Search</button>
+
+</div>
+
+<div id="result"></div>
+
+<script>
+
+async function searchMovie(){
+
+const movie = document.getElementById("movieName").value;
+
+const url = `https://www.omdbapi.com/?t=${movie}&apikey=564727fa`;
+
+const response = await fetch(url);
+
+const data = await response.json();
+
+if(data.Response == "True"){
+
+document.getElementById("result").innerHTML = `
+
+<div class="movie-card">
+
+<h2>${data.Title}</h2>
+
+<img src="${data.Poster}">
+
+<p>${data.Plot}</p>
+
+<h3>Watch Trailer</h3>
+
+<iframe width="350" height="200"
+src="https://www.youtube.com/embed?listType=search&list=${data.Title} trailer"
+frameborder="0" allowfullscreen></iframe>
+
+</div>
+
+`;
+
+}else{
+
+document.getElementById("result").innerHTML = "<p>Movie not found</p>";
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
